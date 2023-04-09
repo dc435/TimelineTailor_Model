@@ -15,8 +15,8 @@ ADD src/. .
 
 WORKDIR /app/model
 COPY download.py .
-ARG ADDRESS_2
-RUN python3 download.py download_files $ADDRESS_2
+ARG ADDRESS
+RUN python3 download.py download_files --address $ADDRESS
 
 WORKDIR /
 
