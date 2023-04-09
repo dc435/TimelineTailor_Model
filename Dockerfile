@@ -16,7 +16,8 @@ ADD src/. .
 WORKDIR /app/model
 COPY download.py .
 ARG ADDRESS
-RUN python3 download.py download_files --address $ADDRESS
+# RUN python3 download.py download_files --address $ADDRESS
+RUN python -c "from download import download_files; download_files('$ADDRESS')"
 
 WORKDIR /
 
