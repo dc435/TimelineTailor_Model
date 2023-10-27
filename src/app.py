@@ -134,7 +134,7 @@ def handler(context: dict, request: Request) -> Response:
         log.error("Could not parse model_inputs.")
         modelOutput.message = "Could not parse model_inputs."
         return Response(
-            json = modelOutput.json(),
+            json = modelOutput.dict(),
             status=400
         )
 
@@ -180,7 +180,7 @@ def handler(context: dict, request: Request) -> Response:
     finally:
 
         return Response(
-            json = modelOutput.json(),
+            json = modelOutput.dict(),
             status=200
         )
 
