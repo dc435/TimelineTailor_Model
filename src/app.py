@@ -133,7 +133,10 @@ def handler(context: dict, request: Request) -> Response:
         print("error")
         log.error("Could not parse model_inputs.")
         modelOutput.message = "Could not parse model_inputs."
-        return modelOutput.json()
+        return Response(
+            json = modelOutput.json(),
+            status=400
+        )
 
     log.info("New Job request received. Job:" + newjob.jobid)
 
@@ -176,7 +179,12 @@ def handler(context: dict, request: Request) -> Response:
 
     finally:
 
-        return modelOutput.json()
+        return Response(
+            json = modelOutput.json(),
+            status=200
+        )
+
+        # return modelOutput.json()
 
 if __name__ == "__main__":
     app.serve()
