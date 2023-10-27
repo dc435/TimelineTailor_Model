@@ -29,8 +29,8 @@ def init():
 
     log.info("Initializing Spacy language model.")
 
-    global nlp
-    global delimiter
+    # global nlp
+    # global delimiter
 
     import warnings
     with warnings.catch_warnings():
@@ -60,10 +60,10 @@ def init():
 
     log.info("Initializing t5 model.")
 
-    global model
-    global tokenizer
-    global device
-    global max_t5_tokens
+    # global model
+    # global tokenizer
+    # global device
+    # global max_t5_tokens
 
     import torch
     device = "cuda:0"
@@ -81,6 +81,18 @@ def init():
 
     log.info("App init() complete.")
 
+    context = {
+        "log": log,
+        "model": model,
+        "tokenizer": tokenizer,
+        "delimiter": DELIMITER,
+        "nlp": nlp,
+        "device": device,
+        "max_t5_tokens":MAX_T5_TOKENS
+    }
+
+    return context
+
 # @app.handler runs for every call
 @app.handler("/")
 def handler(context: dict, request: Request) -> Response:
@@ -91,13 +103,21 @@ def handler(context: dict, request: Request) -> Response:
     from shared_classes import NewJob, ModelOutput, ModelEvent
     import warnings
 
-    global log
-    global nlp
-    global delimiter
-    global model
-    global tokenizer
-    global device
-    global max_t5_tokens
+    # global log
+    # global nlp
+    # global delimiter
+    # global model
+    # global tokenizer
+    # global device
+    # global max_t5_tokens
+
+    log = context.get("log")
+    model = context.get("model")
+    tokenizer = context.get("tokenizer")
+    delimiter = context.get("delimiter")
+    nlp = context.get("nlp")
+    device = context.get("device")
+    max_t5_tokens = context.get("max_t5_tokens")
 
     MAX_CONTEXT_CHARS = 1350
 
