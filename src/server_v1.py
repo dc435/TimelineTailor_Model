@@ -1,6 +1,6 @@
 # ----------------------------------------
 # Entry point for model
-# Based on Banana Serverless GPU template 
+# Based on Banana Serverless GPU template
 # See: https://github.com/bananaml/serverless-template/blob/main/server.py
 # ----------------------------------------
 
@@ -12,7 +12,7 @@
 
 from sanic import Sanic, response
 import subprocess
-import app as user_src
+import app_v1 as user_src
 
 # We do the model load-to-GPU step on server startup
 # so the model object is available globally for reuse
@@ -33,7 +33,7 @@ def healthcheck(request):
     return response.json({"state": "healthy", "gpu": gpu})
 
 # Inference POST handler at '/' is called for every http call from Banana
-@server.route('/', methods=["POST"]) 
+@server.route('/', methods=["POST"])
 def inference(request):
     try:
         model_inputs = response.json.loads(request.json)

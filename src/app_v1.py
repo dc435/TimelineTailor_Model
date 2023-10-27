@@ -1,9 +1,11 @@
-from potassium import Potassium, Request, Response
+# -----------------------------
+# Main functions for model:
+# 1) init(): to cold boot model into GPU memory
+# 2) inference(): per inference
+# -----------------------------
 
-app = Potassium("my_app")
+# Method to cold boot model into GPU memory:
 
-# @app.init runs at startup, and loads models into the app's context
-@app.init
 def init():
 
     DELIMITER = "|"
@@ -81,12 +83,10 @@ def init():
 
     log.info("App init() complete.")
 
-# @app.handler runs for every call
-@app.handler("/")
-def handler(context: dict, request: Request) -> Response:
 
+# Method call per inference:
 
-    model_inputs = request
+def inference(model_inputs:dict) -> dict:
 
     from shared_classes import NewJob, ModelOutput, ModelEvent
     import warnings
@@ -157,6 +157,3 @@ def handler(context: dict, request: Request) -> Response:
     finally:
 
         return modelOutput.json()
-
-if __name__ == "__main__":
-    app.serve()
