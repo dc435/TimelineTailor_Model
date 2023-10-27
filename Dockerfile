@@ -22,4 +22,4 @@ WORKDIR /
 
 EXPOSE 8000
 
-CMD python3 -u app/server.py
+CMD python3 -u app/app.py
