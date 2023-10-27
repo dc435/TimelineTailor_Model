@@ -98,7 +98,7 @@ def init():
 def handler(context: dict, request: Request) -> Response:
 
 
-    model_inputs = request
+    model_inputs = request.json
 
     from shared_classes import NewJob, ModelOutput, ModelEvent
     import warnings
