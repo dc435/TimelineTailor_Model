@@ -7,10 +7,11 @@
 from shared_classes import ModelEvent
 from logging import Logger
 from spacy.language import Language
+import spacy
 
 def get_all_events(
         nlp: Language,
-        original_text: str, 
+        original_text: str,
         max_context_chars: int,
         jobid: str,
         delimiter: str,
@@ -21,6 +22,10 @@ def get_all_events(
 
     from event_builder.text_preprocessing import get_text_list
     text_list = get_text_list(original_text=original_text,delimiter=delimiter)
+    try:
+        spacy.require_gpu()
+    except:
+        spacy.prefer_gpu()
     docs = list(nlp.pipe(text_list))
 
     from event_builder.event_getter import get_events
