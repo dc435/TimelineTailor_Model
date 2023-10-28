@@ -1,4 +1,5 @@
 from potassium import Potassium, Request, Response
+import json
 
 app = Potassium("my_app")
 
@@ -29,9 +30,6 @@ def init():
 
     log.info("Initializing Spacy language model.")
 
-    # global nlp
-    # global delimiter
-
     import warnings
     with warnings.catch_warnings():
         warnings.simplefilter('ignore')
@@ -45,7 +43,6 @@ def init():
         log.warning("Could not require spacy GPU.")
     nlp = spacy.load("en_core_web_trf")
     # Add custom sentence segment pipeline:
-    delimiter = DELIMITER
     from spacy.language import Language
     @Language.component("custom_sentencizer")
     def custom_sentencizer(doc):
@@ -59,11 +56,6 @@ def init():
     #  2. Initialise t5 model:
 
     log.info("Initializing t5 model.")
-
-    # global model
-    # global tokenizer
-    # global device
-    # global max_t5_tokens
 
     import torch
     device = "cuda:0"
@@ -97,19 +89,10 @@ def init():
 @app.handler("/")
 def handler(context: dict, request: Request) -> Response:
 
-
     model_inputs = request.json
 
     from shared_classes import NewJob, ModelOutput, ModelEvent
     import warnings
-
-    # global log
-    # global nlp
-    # global delimiter
-    # global model
-    # global tokenizer
-    # global device
-    # global max_t5_tokens
 
     log = context.get("log")
     model = context.get("model")
@@ -180,11 +163,9 @@ def handler(context: dict, request: Request) -> Response:
     finally:
 
         return Response(
-            json = modelOutput.dict(),
+            json = json.loads(modelOutput.json()),
             status=200
         )
-
-        # return modelOutput.json()
 
 if __name__ == "__main__":
     app.serve()

@@ -1,3 +1,4 @@
 src/__pycache__
 src/event_builder/__pycache__
 src/event_processor/__pycache__
+/model
